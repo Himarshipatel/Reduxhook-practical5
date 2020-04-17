@@ -1,39 +1,21 @@
 import React from "react";
-import { Bar } from "react-chartjs-2";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { Home } from "./view/home";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistore } from "./store";
 
-const state = {
-  labels: ["USA", "CHINA", "AUSTRALIA", "INDIA", "CANADA"],
-  datasets: [
-    {
-      label: "Covid-19",
-      backgroundColor: "rgba(75,192,192,1)",
-      borderColor: "rgba(0,0,0,1)",
-      borderWidth: 2,
-      data: [81, 100, 80, 71, 56],
-    },
-  ],
+const App = () => {
+  return (
+    <Provider store={store}>
+      <PersistGate persistor={persistore}>
+        <BrowserRouter>
+          <Switch>
+            <Route path="/" component={Home} exact />
+          </Switch>
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>
+  );
 };
-
-class App extends React.Component {
-  render() {
-    return (
-      <div>
-        <Bar
-          data={state}
-          options={{
-            title: {
-              display: true,
-              text: "country Cases",
-              fontSize: 20,
-            },
-            legend: {
-              display: true,
-              position: "right",
-            },
-          }}
-        />
-      </div>
-    );
-  }
-}
 export default App;
